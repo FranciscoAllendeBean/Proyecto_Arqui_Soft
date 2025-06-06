@@ -6,7 +6,7 @@ import (
 
 	"Backend/Models"
 
-	e "Backend/utils/errors"
+	e "Backend/errors"
 )
 
 type inscripcionService struct{}

@@ -18,13 +18,13 @@ func GetActividadById(id int) Models.Actividad {
 	return actividad
 }
 
-func GetActividadDisponible() Models.Actividad {
-	var actividades []Models.actividad
+func GetActividadDisponible() Models.Actividades {
+	var Actividades Models.Actividades
 
-	Db.Where("disponible = ?", true).Find(&actividades)
-	log.Debug("Act: ", actividades)
+	Db.Where("disponible = ?", true).Find(&Actividades)
+	log.Debug("Act: ", Actividades)
 
-	return actividades
+	return Actividades
 }
 
 func DeleteActividad(id int) Models.Actividad {
@@ -45,7 +45,7 @@ func DeleteActividad(id int) Models.Actividad {
 	return nil
 }
 
-func CrearActividad(actividad Models.actividad) error {
+func CrearActividad(actividad Models.Actividad) error {
 	result := Db.Create(&actividad)
 
 	if result.Error != nil {

@@ -1,13 +1,13 @@
 package Models
 
-type usuario struct {
-	id       int    `gorm:"primaryKey"`
-	name     string `gorm:"varchar(50);not null"`
-	surname  string `gorm:"varchar(50);not null"`
-	dni      int    `gorm:"not null"`
-	user     string `gorm:"varchar(50);not null"`
-	password string `gorm:"varchar(50);not null"`
-	usertype string `gorm:"varchar(50);not null"`
+type Usuario struct {
+	Id       int    `gorm:"primaryKey"`
+	Name     string `gorm:"varchar(50);not null"`
+	Surname  string `gorm:"varchar(50);not null"`
+	Dni      int    `gorm:"not null"`
+	User     string `gorm:"varchar(50);not null"`
+	Password string `gorm:"varchar(50);not null"`
+	Usertype string `gorm:"varchar(50);not null"`
 }
 
-type usuarios []usuario
+type Usuarios []Usuario

@@ -3,14 +3,14 @@ package Services
 import (
 	usuarioCliente "Backend/Clients"
 	//"Backend/dto"
-
-	e "Backend/utils/errors"
+	"Backend/Models"
+	e "Backend/errors"
 )
 
 type usuarioService struct{}
 
 type usuarioServiceInterface interface {
-	CrearUsuario(usuario Models.usuario) e.ApiError
+	CrearUsuario(usuario Models.Usuario) e.ApiError
 	Login(user string, password string) (bool, e.ApiError)
 }
 
@@ -22,7 +22,7 @@ func init() {
 	UsuarioService = &usuarioService{}
 }
 
-func (s *usuarioService) CrearUsuario(usuario Models.usuario) e.ApiError {
+func (s *usuarioService) CrearUsuario(usuario Models.Usuario) e.ApiError {
 	err := usuarioCliente.CrearUsuario(usuario)
 	if err != nil {
 		return e.NewInternalServerApiError("No se pudo crear el usuario", err)

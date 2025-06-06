@@ -1,6 +1,7 @@
 package Controllers
 
 import (
+	"Backend/Models"
 	Services "Backend/Services"
 	"Backend/dto"
 	"net/http"
@@ -11,7 +12,7 @@ import (
 )
 
 func CrearUsuario(c *gin.Context) {
-	var usuario dto.Usuariodto
+	var usuario Models.Usuario
 	if err := c.BindJSON(&usuario); err != nil {
 		c.JSON(http.StatusBadRequest, "Datos inválidos")
 		return

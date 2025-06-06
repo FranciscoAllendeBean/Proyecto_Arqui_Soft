@@ -4,19 +4,19 @@ import (
 	actividadCliente "Backend/Clients"
 	"Backend/dto"
 
-	//"Backend/Models" por alguna razon lo borra cuando le doy a guardar
+	"Backend/Models"
 
-	e "Backend/utils/errors"
+	e "Backend/errors"
 )
 
 type actividadService struct{}
 
 type actividadServiceInterface interface {
-	GetActividadById(id int) (dto.Actividaddto, e.ApiError)
-	InsertActividad(actividadDto dto.Actividaddto) (dto.Actividaddto, e.ApiError)
+	GetActividadById(id int) (dto.ActividadDto, e.ApiError)
+	InsertActividad(actividadDto dto.ActividadDto) (dto.ActividadDto, e.ApiError)
 	ModificarActividad(id int, campo string, valor interface{}) e.ApiError
 	DeleteActividad(id int) e.ApiError
-	GetActividadDisponible() ([]dto.Actividaddto, e.ApiError)
+	GetActividadDisponible() ([]dto.ActividadDto, e.ApiError)
 }
 
 var (
@@ -27,10 +27,10 @@ func init() {
 	ActividadService = &actividadService{}
 }
 
-func (s *actividadService) GetActividadById(id int) (dto.Actividaddto, e.ApiError) {
+func (s *actividadService) GetActividadById(id int) (dto.ActividadDto, e.ApiError) {
 
-	var actividad Models.actividad = actividadCliente.GetActividadById(id)
-	var actividadDto dto.Actividaddto
+	var actividad Models.Actividad = actividadCliente.GetActividadById(id)
+	var actividadDto dto.ActividadDto
 
 	if actividad.Id == 0 {
 		return actividadDto, e.NewBadRequestApiError("actividad not found")
@@ -48,9 +48,9 @@ func (s *actividadService) GetActividadById(id int) (dto.Actividaddto, e.ApiErro
 	return actividadDto, nil
 }
 
-func (s *actividadService) InsertActividad(actividadDto dto.Actividaddto) (dto.Actividaddto, e.ApiError) {
+func (s *actividadService) InsertActividad(actividadDto dto.ActividadDto) (dto.ActividadDto, e.ApiError) {
 
-	var actividad Models.actividad
+	var actividad Models.Actividad
 	actividad.Nombre = actividadDto.Nombre
 	actividad.Descripcion = actividadDto.Descripcion
 	actividad.Cupo = actividadDto.Cupo
@@ -83,12 +83,12 @@ func (s *actividadService) DeleteActividad(id int) e.ApiError {
 	return nil
 }
 
-func (s *actividadService) GetActividadDisponible() ([]dto.Actividaddto, e.ApiError) {
+func (s *actividadService) GetActividadDisponible() ([]dto.ActividadDto, e.ApiError) {
 	actividades := actividadCliente.GetActividadDisponible()
-	var actividadesDto []dto.Actividaddto
+	var actividadesDto []dto.ActividadDto
 
 	for _, actividad := range actividades {
-		var actividadDto dto.Actividaddto
+		var actividadDto dto.ActividadDto
 		actividadDto.Nombre = actividad.Nombre
 		actividadDto.Id = actividad.Id
 		actividadDto.Dia = actividad.Dia

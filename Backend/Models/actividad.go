@@ -1,14 +1,14 @@
 package Models
 
-type actividad struct {
-	id             int    `gorm:"primaryKey"`
-	nombre         string `gorm:"type:varchar(100); not null"`
-	dia            string `gorm:"type:varchar(100); not null"`
-	hora           string `gorm:"type:varchar(100); not null"`
-	cupo           int    `gorm:"not null"`
-	categoria      string `gorm:"type:varchar(100); not null"`
-	descripcion    string `gorm:"type:varchar(350)"`
-	disponibilidad bool   `gorm:"default:true"`
+type Actividad struct {
+	Id             int    `gorm:"primaryKey"`
+	Nombre         string `gorm:"type:varchar(100); not null"`
+	Dia            string `gorm:"type:varchar(100); not null"`
+	Hora           string `gorm:"type:varchar(100); not null"`
+	Cupo           int    `gorm:"not null"`
+	Categoria      string `gorm:"type:varchar(100); not null"`
+	Descripcion    string `gorm:"type:varchar(350)"`
+	Disponibilidad bool   `gorm:"default:true"`
 }
 
-type actividades []actividad
+type Actividades []Actividad

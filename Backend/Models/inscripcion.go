@@ -1,12 +1,12 @@
 package Models
 
-type inscripcion struct {
-	id    int    `gorm:"primaryKey"`
-	fecha string `gorm:"varchar(100);not null"`
+type Inscripcion struct {
+	Id    int    `gorm:"primaryKey"`
+	Fecha string `gorm:"varchar(100);not null"`
 
-	actividad   actividad `gorm:"foreinkey:actividadid"`
-	actividadid int
+	Actividad   Actividad `gorm:"foreinkey:actividadid"`
+	Actividadid int
 
-	usuario   usuario `gorm:"foreinkey:usuarioid"`
-	usuarioid int
+	Usuario   Usuario `gorm:"foreinkey:usuarioid"`
+	Usuarioid int
 }

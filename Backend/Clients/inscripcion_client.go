@@ -9,7 +9,7 @@ import (
 
 var Db *gorm.DB
 
-func CrearInscripcion(inscripcion Models.inscripcion) error {
+func CrearInscripcion(inscripcion Models.Inscripcion) error {
 	result := Db.Create(&inscripcion)
 
 	if result.Error != nil {

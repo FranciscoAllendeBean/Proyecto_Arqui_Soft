@@ -9,7 +9,7 @@ import (
 
 var Db *gorm.DB
 
-func CrearUsuario(usuario Models.usuario) error {
+func CrearUsuario(usuario Models.Usuario) error {
 	result := Db.Create(&usuario)
 
 	if result.Error != nil {
@@ -30,7 +30,7 @@ func Login(user string, password string) (bool, error) {
 		return false, result.Error
 	}
 
-	if usuario.password != password {
+	if usuario.Password != password {
 		log.Warn("Contraseña incorrecta para el usuario: ", user)
 		return false, nil
 	}
