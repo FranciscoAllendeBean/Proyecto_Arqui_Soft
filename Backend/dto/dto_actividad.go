@@ -1,6 +1,6 @@
 package dto
 
-type Actividaddto struct {
+type ActividadDto struct {
 	Id             int    `json:"id"`
 	Nombre         string `json:"nombre"`
 	Dia            string `json:"dia"`
@@ -11,4 +11,4 @@ type Actividaddto struct {
 	Disponibilidad bool   `json:"disponibilidad"`
 }
 
-type Actividadesdto []Actividaddto
+type Actividadesdto []ActividadDto
