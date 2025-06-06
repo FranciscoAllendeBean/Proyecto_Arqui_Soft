@@ -1,37 +1,30 @@
 import React, { useState } from 'react';
+import Home from './Home';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validación simple
     if (!email || !password) {
       setError('Todos los campos son obligatorios.');
       return;
     }
-
     try {
-      // Simulando login o conexión con backend
       const response = await fetch('http://localhost:3000/api/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
       });
-
       const data = await response.json();
-
       if (response.ok) {
-        // Login exitoso
         alert('Inicio de sesión exitoso');
-        console.log(data);
+        navigate('/home'); // Redirige al Home
       } else {
-        // Error del servidor
         setError(data.message || 'Credenciales inválidas');
       }
     } catch (err) {
@@ -45,9 +38,9 @@ const Login = () => {
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Correo electrónico:</label>
+          <label>usuario:</label>
           <input
-            type="email"
+            type="usuario"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -62,7 +55,7 @@ const Login = () => {
             required
           />
         </div>
-        <button type="submit">Ingresar</button>
+      <button onClick={() => navigate('/home')}>Home</button>
       </form>
     </div>
   );

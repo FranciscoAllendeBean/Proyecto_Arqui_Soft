@@ -1,7 +1,7 @@
 package clients
 
 import (
-	"Models"
+	"Backend/Models"
 
 	log "github.com/sirupsen/logrus"
 	"gorm.io/gorm"
