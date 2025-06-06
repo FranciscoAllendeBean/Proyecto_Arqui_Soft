@@ -4,10 +4,7 @@ import (
 	"Backend/Models"
 
 	log "github.com/sirupsen/logrus"
-	"gorm.io/gorm"
 )
-
-var Db *gorm.DB
 
 func CrearUsuario(usuario Models.Usuario) error {
 	result := Db.Create(&usuario)

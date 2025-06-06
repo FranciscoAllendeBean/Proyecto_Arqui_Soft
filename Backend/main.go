@@ -1,6 +1,7 @@
 package main
 
 import (
+	_ "Backend/DB"
 	"Backend/routers"
 )
 

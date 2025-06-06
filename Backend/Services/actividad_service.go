@@ -1,7 +1,7 @@
 package Services
 
 import (
-	actividadCliente "Backend/Clients"
+	actividadCliente "Backend/clients"
 	"Backend/dto"
 
 	"Backend/Models"
@@ -60,7 +60,10 @@ func (s *actividadService) InsertActividad(actividadDto dto.ActividadDto) (dto.A
 	actividad.Descripcion = actividadDto.Descripcion
 	actividad.Disponibilidad = actividadDto.Disponibilidad
 
-	actividad = actividadCliente.CrearActividad(actividad)
+	err := actividadCliente.CrearActividad(actividad)
+	if err != nil {
+		return actividadDto, e.NewInternalServerApiError("No se pudo crear la actividad", err)
+	}
 
 	actividadDto.Id = actividad.Id
 

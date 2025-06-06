@@ -1,7 +1,7 @@
 package Services
 
 import (
-	inscripcionCliente "Backend/Clients"
+	inscripcionCliente "Backend/clients"
 	//"Backend/dto"
 
 	"Backend/Models"

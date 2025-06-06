@@ -4,10 +4,7 @@ import (
 	"Backend/Models"
 
 	log "github.com/sirupsen/logrus"
-	"gorm.io/gorm"
 )
-
-var Db *gorm.DB
 
 func CrearInscripcion(inscripcion Models.Inscripcion) error {
 	result := Db.Create(&inscripcion)

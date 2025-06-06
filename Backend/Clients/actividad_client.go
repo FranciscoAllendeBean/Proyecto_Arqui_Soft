@@ -27,7 +27,7 @@ func GetActividadDisponible() Models.Actividades {
 	return Actividades
 }
 
-func DeleteActividad(id int) Models.Actividad {
+func DeleteActividad(id int) error {
 	var actividad Models.Actividad
 
 	result := Db.Where("id = ?", id).First(&actividad)

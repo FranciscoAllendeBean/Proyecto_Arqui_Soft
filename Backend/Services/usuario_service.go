@@ -1,7 +1,7 @@
 package Services
 
 import (
-	usuarioCliente "Backend/Clients"
+	usuarioCliente "Backend/clients"
 	//"Backend/dto"
 	"Backend/Models"
 	e "Backend/errors"
