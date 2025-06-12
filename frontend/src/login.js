@@ -55,7 +55,7 @@ const Login = () => {
             required
           />
         </div>
-      <button type="submit">Login</button>
+      <button onClick={navigate('/Principal')}>Login</button>
       </form>
     </div>
   );
