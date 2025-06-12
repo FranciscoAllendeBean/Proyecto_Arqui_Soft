@@ -1,29 +1,29 @@
 import React, { useState } from 'react';
-import Home from './Home';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
+  const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!email || !password) {
+    if (!user || !password) {
       setError('Todos los campos son obligatorios.');
       return;
     }
     try {
-      const response = await fetch('http://localhost:3000/api/login', {
+      const response = await fetch('http://localhost:8080/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ user, password })
       });
       const data = await response.json();
       if (response.ok) {
+        localStorage.setItem('token', data.token);
         alert('Inicio de sesión exitoso');
-        navigate('/home'); // Redirige al Home
+        navigate('/Principal');
       } else {
         setError(data.message || 'Credenciales inválidas');
       }
@@ -40,9 +40,9 @@ const Login = () => {
         <div>
           <label>usuario:</label>
           <input
-            type="usuario"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type="text"
+            value={user}
+            onChange={(e) => setUser(e.target.value)}
             required
           />
         </div>
@@ -55,7 +55,7 @@ const Login = () => {
             required
           />
         </div>
-      <button onClick={() => navigate('/home')}>Home</button>
+      <button type="submit">Login</button>
       </form>
     </div>
   );
