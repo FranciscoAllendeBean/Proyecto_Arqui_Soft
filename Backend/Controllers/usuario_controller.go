@@ -40,17 +40,23 @@ func Login(c *gin.Context) {
 		return
 	}
 	if !ok {
-		c.JSON(401, gin.H{"message": "Credenciales inválidas"})
+		c.JSON(401, gin.H{"error": "Credenciales inválidas"})
 		return
 	}
 
-	// Aquí deberías obtener el rol real del usuario desde la base de datos
-	rol := usuario.Role // O "usuario", según corresponda
+	// Obtener el usuario real desde la base de datos
+	usuarioDB, err := Services.UsuarioService.GetByUser(usuario.User)
+	if err != nil {
+		c.JSON(500, gin.H{"error": "No se pudo obtener el usuario"})
+		return
+	}
+	rol := usuarioDB.Role // Este es el rol real
 
 	claims := jwt.MapClaims{
 		"user": usuario.User,
 		"role": rol,
-		"exp":  time.Now().Add(time.Hour * 1).Unix()}
+		"exp":  time.Now().Add(time.Hour * 1).Unix(),
+	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	tokenString, err := token.SignedString([]byte("tu_clave_secreta"))

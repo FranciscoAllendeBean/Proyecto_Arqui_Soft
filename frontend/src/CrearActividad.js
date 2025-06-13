@@ -19,11 +19,12 @@ const CrearActividad = () => {
     e.preventDefault();
     setMensaje('');
     try {
+      const token =localStorage.getItem('token');
       const response = await fetch('http://localhost:8080/actividades', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${token}'
+          'Authorization': token
         },
         body: JSON.stringify(form)
       });

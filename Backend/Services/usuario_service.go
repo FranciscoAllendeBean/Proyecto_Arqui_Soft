@@ -12,6 +12,7 @@ type usuarioService struct{}
 type usuarioServiceInterface interface {
 	CrearUsuario(usuario Models.Usuario) e.ApiError
 	Login(user string, password string) (bool, e.ApiError)
+	GetByUser(user string) (*Models.Usuario, error)
 }
 
 var (
@@ -36,4 +37,8 @@ func (s *usuarioService) Login(user string, password string) (bool, e.ApiError) 
 		return false, e.NewInternalServerApiError("Error en el login", err)
 	}
 	return ok, nil
+}
+
+func (s *usuarioService) GetByUser(user string) (*Models.Usuario, error) {
+	return usuarioCliente.GetByUser(user)
 }

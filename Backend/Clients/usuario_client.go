@@ -43,3 +43,12 @@ func Login(user string, password string) (bool, error) {
 	log.Info("Login exitoso para el usuario: ", user)
 	return true, nil
 }
+
+func GetByUser(user string) (*Models.Usuario, error) {
+	var usuario Models.Usuario
+	result := Db.Where("user = ?", user).First(&usuario)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return &usuario, nil
+}
