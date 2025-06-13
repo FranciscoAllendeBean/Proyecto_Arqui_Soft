@@ -30,7 +30,7 @@ func CrearUsuario(c *gin.Context) {
 func Login(c *gin.Context) {
 	var usuario dto.Usuariodto
 	if err := c.BindJSON(&usuario); err != nil {
-		c.JSON(400, gin.H{"error": "Datos inválidos"})
+		c.JSON(400, gin.H{"message": "Datos inválidos"})
 		return
 	}
 
@@ -40,7 +40,7 @@ func Login(c *gin.Context) {
 		return
 	}
 	if !ok {
-		c.JSON(401, gin.H{"error": "Credenciales inválidas"})
+		c.JSON(401, gin.H{"message": "Credenciales inválidas"})
 		return
 	}
 
@@ -60,7 +60,7 @@ func Login(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{
-		"mensaje": "Inicio de sesión exitoso",
+		"message": "Inicio de sesión exitoso",
 		"token":   tokenString,
 	})
 }

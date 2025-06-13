@@ -2,7 +2,9 @@ package routers
 
 import (
 	"Backend/Controllers"
+	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt"
 )
@@ -38,7 +40,25 @@ func AdminMiddleware() gin.HandlerFunc {
 func SetupRouter() *gin.Engine {
 	router := gin.Default()
 
+	// Habilitar CORS
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
+
+	// Rutas públicas
 	router.GET("/actividades/:id", Controllers.GetActividadById)
+	router.GET("/actividades/disponibles", Controllers.GetActividadDisponible)
+	router.POST("/inscripciones", Controllers.CrearInscripcion)
+	router.GET("/usuarios/:usuarioid/actividades", Controllers.GetActividadesPorUsuario)
+	router.POST("/usuarios", Controllers.CrearUsuario)
+	router.POST("/login", Controllers.Login)
+
+	// Rutas protegidas con middleware de admin
 	auth := router.Group("/")
 	auth.Use(AdminMiddleware())
 	{
@@ -46,13 +66,6 @@ func SetupRouter() *gin.Engine {
 		auth.PUT("/actividades/:id", Controllers.ModificarActividad)
 		auth.DELETE("/actividades/:id", Controllers.DeleteActividad)
 	}
-	router.GET("/actividades/disponibles", Controllers.GetActividadDisponible)
-
-	router.POST("/inscripciones", Controllers.CrearInscripcion)
-	router.GET("/usuarios/:usuarioid/actividades", Controllers.GetActividadesPorUsuario)
-
-	router.POST("/usuarios", Controllers.CrearUsuario)
-	router.POST("/login", Controllers.Login)
 
 	return router
 }
