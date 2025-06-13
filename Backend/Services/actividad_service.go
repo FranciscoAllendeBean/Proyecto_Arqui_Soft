@@ -43,7 +43,7 @@ func (s *actividadService) GetActividadById(id int) (dto.ActividadDto, e.ApiErro
 	actividadDto.Cupo = actividad.Cupo
 	actividadDto.Categoria = actividad.Categoria
 	actividadDto.Descripcion = actividad.Descripcion
-	actividadDto.Disponibilidad = actividad.Disponibilidad
+	actividadDto.Disponibilidad = actividad.Disponible
 
 	return actividadDto, nil
 }
@@ -58,7 +58,7 @@ func (s *actividadService) InsertActividad(actividadDto dto.ActividadDto) (dto.A
 	actividad.Hora = actividadDto.Hora
 	actividad.Categoria = actividadDto.Categoria
 	actividad.Descripcion = actividadDto.Descripcion
-	actividad.Disponibilidad = actividadDto.Disponibilidad
+	actividad.Disponible = actividadDto.Disponibilidad
 
 	err := actividadCliente.CrearActividad(actividad)
 	if err != nil {
@@ -99,7 +99,7 @@ func (s *actividadService) GetActividadDisponible() ([]dto.ActividadDto, e.ApiEr
 		actividadDto.Cupo = actividad.Cupo
 		actividadDto.Categoria = actividad.Categoria
 		actividadDto.Descripcion = actividad.Descripcion
-		actividadDto.Disponibilidad = actividad.Disponibilidad
+		actividadDto.Disponibilidad = actividad.Disponible
 		actividadesDto = append(actividadesDto, actividadDto)
 	}
 

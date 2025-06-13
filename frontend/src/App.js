@@ -62,9 +62,10 @@ function Pagina2() {
 }
 
 function Pagina3() {
+  const usuarioId = localStorage.getItem('usuarioId');
   return (
     <div>
-
+      Usuario ID: {usuarioId}
     </div>
   );
 }

@@ -21,8 +21,8 @@ func CrearInscripcion(inscripcion Models.Inscripcion) error {
 func GetActividadesPorUsuario(usuarioid int) ([]Models.Actividad, error) {
 	var actividades []Models.Actividad
 
-	err := Db.Joins("JOIN inscripcion ON inscripcion.actividad_id = actividad.id").
-		Where("inscripcion.usuario_id = ?", usuarioid).
+	err := Db.Joins("JOIN inscripcions ON inscripcions.actividadid = actividads.id").
+		Where("inscripcions.usuarioid = ?", usuarioid).
 		Find(&actividades).Error
 
 	if err != nil {

@@ -4,9 +4,9 @@ type Inscripcion struct {
 	Id    int    `gorm:"primaryKey"`
 	Fecha string `gorm:"varchar(100);not null"`
 
-	Actividad   Actividad `gorm:"foreinkey:actividadid"`
+	Actividad   Actividad `gorm:"foreignKey:actividadid"`
 	Actividadid int
 
-	Usuario   Usuario `gorm:"foreinkey:usuarioid"`
+	Usuario   Usuario `gorm:"foreignKey:usuarioid"`
 	Usuarioid int
 }
