@@ -16,36 +16,41 @@ const CrearActividad = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setMensaje('');
-    try {
-      const token =localStorage.getItem('token');
-      const response = await fetch('http://localhost:8080/actividades', {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': token
-        },
-        body: JSON.stringify(form)
-      });
-      if (response.ok) {
-        setMensaje('Actividad creada con éxito');
-        setForm({
-          nombre: '',
-          descripcion: '',
-          dia: '',
-          hora: '',
-          cupo: '',
-          categoria: ''
-        });
-      } else {
-        const data = await response.json();
-        setMensaje(data.message || 'Error al crear actividad');
-      }
-    } catch {
-      setMensaje('Error al conectar con el servidor');
-    }
+  e.preventDefault();
+  setMensaje('');
+  const formToSend = {
+    ...form,
+    cupo: Number(form.cupo),
+    disponibilidad: true // o false, según lo que quieras por defecto
   };
+  try {
+    const token = localStorage.getItem('token');
+    const response = await fetch('http://localhost:8080/actividades', {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': token
+      },
+      body: JSON.stringify(formToSend)
+    });
+    if (response.ok) {
+      setMensaje('Actividad creada con éxito');
+      setForm({
+        nombre: '',
+        descripcion: '',
+        dia: '',
+        hora: '',
+        cupo: '',
+        categoria: ''
+      });
+    } else {
+      const data = await response.json();
+      setMensaje(data.message || 'Error al crear actividad');
+    }
+  } catch {
+    setMensaje('Error al conectar con el servidor');
+  }
+};
 
   return (
     <div style={{ maxWidth: 400, margin: 'auto' }}>

@@ -6,18 +6,21 @@ const MisActividades = () => {
   const [mensaje, setMensaje] = useState('');
 
   useEffect(() => {
-    if (!usuarioId) {
-      setMensaje('No hay usuario autenticado');
-      return;
-    }
-    fetch(`http://localhost:8080/usuarios/${usuarioId}/actividades`)
-      .then(res => {
-        if (!res.ok) throw new Error('Error al cargar actividades');
-        return res.json();
-      })
-      .then(data => setActividades(data))
-      .catch(() => setMensaje('No se pudieron cargar tus actividades'));
-  }, [usuarioId]);
+  if (!usuarioId) {
+    setMensaje('No hay usuario autenticado');
+    return;
+  }
+  fetch(`http://localhost:8080/usuarios/${usuarioId}/actividades`)
+    .then(res => {
+      if (!res.ok) throw new Error('Error al cargar actividades');
+      return res.json();
+    })
+    .then(data => {
+  console.log('Respuesta actividades:', data);
+  setActividades(data || []);
+})
+    .catch(() => setMensaje('No se pudieron cargar tus actividades'));
+}, [usuarioId]);
 
   return (
     <div style={{ maxWidth: 600, margin: 'auto' }}>
@@ -25,8 +28,9 @@ const MisActividades = () => {
       {mensaje && <p style={{ color: 'red' }}>{mensaje}</p>}
       <ul>
         {actividades.map(act => (
-          <li key={act.id}>
-            <strong>{act.nombre}</strong> - {act.descripcion}
+          <li key={act.Id}>
+            <strong>{act.Nombre}</strong> - {act.Descripcion} <br />
+            Día: {act.Dia} | Hora: {act.Hora} | Cupo: {act.Cupo} | Categoría: {act.Categoria}
           </li>
         ))}
       </ul>
