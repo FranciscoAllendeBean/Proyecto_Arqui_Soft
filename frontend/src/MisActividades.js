@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
-const MisActividades = ({ usuarioId }) => {
+const MisActividades = () => {
+  const usuarioId = localStorage.getItem('usuarioId');
   const [actividades, setActividades] = useState([]);
   const [mensaje, setMensaje] = useState('');
 
@@ -9,7 +10,7 @@ const MisActividades = ({ usuarioId }) => {
       setMensaje('No hay usuario autenticado');
       return;
     }
-    fetch(`http://localhost:8080/usuarios/${usuarioId}/inscripciones`)
+    fetch(`http://localhost:8080/usuarios/${usuarioId}/actividades`)
       .then(res => {
         if (!res.ok) throw new Error('Error al cargar actividades');
         return res.json();

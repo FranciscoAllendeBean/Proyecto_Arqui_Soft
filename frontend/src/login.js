@@ -22,6 +22,7 @@ const Login = () => {
       const data = await response.json();
       if (response.ok) {
         localStorage.setItem('token', data.token);
+        localStorage.setItem('usuarioId', data.usuarioId);
         alert('Inicio de sesión exitoso');
         navigate('/Principal');
       } else {

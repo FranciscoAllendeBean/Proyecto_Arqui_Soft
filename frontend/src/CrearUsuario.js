@@ -16,32 +16,33 @@ const CrearUsuario = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setMensaje('');
-    try {
-      const response = await fetch('http://localhost:8080/usuarios', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form)
+  e.preventDefault();
+  setMensaje('');
+  const formToSend = { ...form, dni: Number(form.dni) };
+  try {
+    const response = await fetch('http://localhost:8080/usuarios', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formToSend) // <--- aquí el cambio
+    });
+    if (response.ok) {
+      setMensaje('Usuario creado con éxito');
+      setForm({
+        name: '',
+        surname: '',
+        dni: '',
+        user: '',
+        password: '',
+        role: ''
       });
-      if (response.ok) {
-        setMensaje('Usuario creado con éxito');
-        setForm({
-          name: '',
-          surname: '',
-          dni: '',
-          user: '',
-          password: '',
-          role: ''
-        });
-      } else {
-        const data = await response.json();
-        setMensaje(data.message || 'Error al crear usuario');
-      }
-    } catch {
-      setMensaje('Error al conectar con el servidor');
+    } else {
+      const data = await response.json();
+      setMensaje(data.message || 'Error al crear usuario');
     }
-  };
+  } catch {
+    setMensaje('Error al conectar con el servidor');
+  }
+};
 
   return (
     <div style={{ maxWidth: 400, margin: 'auto' }}>

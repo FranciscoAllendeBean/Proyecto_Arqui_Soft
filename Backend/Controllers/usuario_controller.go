@@ -50,7 +50,7 @@ func Login(c *gin.Context) {
 		c.JSON(500, gin.H{"error": "No se pudo obtener el usuario"})
 		return
 	}
-	rol := usuarioDB.Role // Este es el rol real
+	rol := usuarioDB.Role
 
 	claims := jwt.MapClaims{
 		"user": usuario.User,
@@ -66,7 +66,8 @@ func Login(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{
-		"message": "Inicio de sesión exitoso",
-		"token":   tokenString,
+		"message":   "Inicio de sesión exitoso",
+		"token":     tokenString,
+		"usuarioId": usuarioDB.Id,
 	})
 }

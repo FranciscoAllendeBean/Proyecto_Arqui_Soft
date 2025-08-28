@@ -14,31 +14,31 @@ const Actividades = () => {
 
   // Función para inscribirse
   const inscribirse = async (actividadId) => {
-    const usuarioId = localStorage.getItem('usuarioId'); // Asegúrate de guardar el usuarioId al hacer login
-    if (!usuarioId) {
-      setMensaje('Debes iniciar sesión para inscribirte');
-      return;
+  const usuarioId = localStorage.getItem('usuarioId');
+  if (!usuarioId) {
+    setMensaje('Debes iniciar sesión para inscribirte');
+    return;
+  }
+  try {
+    const response = await fetch('http://localhost:8080/inscripciones', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        Actividadid: Number(actividadId),
+        Usuarioid: Number(usuarioId),
+        Fecha: new Date().toISOString().slice(0, 10)
+      })
+    });
+    if (response.ok) {
+      setMensaje('Inscripción exitosa');
+    } else {
+      const data = await response.json();
+      setMensaje(data.message || 'No se pudo inscribir');
     }
-    try {
-      const response = await fetch('http://localhost:8080/inscripciones', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          actividadid: actividadId,
-          usuarioid: usuarioId,
-          fecha: new Date().toISOString().slice(0, 10)
-        })
-      });
-      if (response.ok) {
-        setMensaje('Inscripción exitosa');
-      } else {
-        const data = await response.json();
-        setMensaje(data.message || 'No se pudo inscribir');
-      }
-    } catch {
-      setMensaje('Error al conectar con el servidor');
-    }
-  };
+  } catch {
+    setMensaje('Error al conectar con el servidor');
+  }
+};
 
   // Filtrar por ID si hay algo en el input
   const actividadesFiltradas = busquedaId
