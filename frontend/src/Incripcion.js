@@ -1,5 +1,27 @@
 async function crearInscripcion(actividad_id, usuario_id) {
   try {
+    const respCheck = await fetch(`http://localhost:8080/usuarios/${usuario_id}/actividades`);
+    if (!respCheck.ok) {
+      alert('No se pudo comprobar inscripciones (error de red)');
+      return false;
+    }
+    const data = await respCheck.json(); // puede venir como array o { inscripciones: [...] }
+    const inscripciones = Array.isArray(data) ? data : (data.inscripciones || data.actividades || []);
+
+    // crear un set de "usuario:actividad"
+    const existingPairs = new Set(
+      inscripciones.map(it => {
+        const u = Number(it.Usuarioid ?? it.usuarioid ?? usuario_id); // fallback
+        const a = Number(it.Actividadid ?? it.actividadid ?? it.Id ?? it.id);
+        return `${u}:${a}`;
+      })
+    );
+
+    const targetPair = `${Number(usuario_id)}:${Number(actividad_id)}`;
+    if (existingPairs.has(targetPair)) {
+      alert('Ya estás inscripto en esa actividad');
+      return false;
+    }
     const response = await fetch('http://localhost:8080/inscripciones', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

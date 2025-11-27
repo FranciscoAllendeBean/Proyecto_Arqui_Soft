@@ -9,27 +9,27 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!user || !password) {
-      setError('Todos los campos son obligatorios.');
-      return;
-    }
+    setError('');
     try {
-      const response = await fetch('http://localhost:8080/login', {
+      const res = await fetch('http://localhost:8080/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ user, password })
+        body: JSON.stringify({ user: user, password: password })
       });
-      const data = await response.json();
-      if (response.ok) {
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('usuarioId', data.usuarioId);
-        alert('Inicio de sesión exitoso');
-        navigate('/Principal');
-      } else {
-        setError(data.message || 'Credenciales inválidas');
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        setError(err.message || 'Credenciales inválidas');
+        return;
       }
+      const data = await res.json();
+      const rol = (data.Rol || data.role || '').toString();
+      localStorage.setItem('usuarioId', data.usuarioId ?? data.usuarioid ?? '');
+      localStorage.setItem('role', rol);
+
+      if (rol === 'admin') navigate('/PrincipalAdmin');
+      else navigate('/PrincipalUser');
     } catch (err) {
-      setError('Error al conectar con el servidor');
+      setError('Error de conexión');
     }
   };
 

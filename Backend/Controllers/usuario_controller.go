@@ -69,5 +69,6 @@ func Login(c *gin.Context) {
 		"message":   "Inicio de sesión exitoso",
 		"token":     tokenString,
 		"usuarioId": usuarioDB.Id,
+		"role":      rol,
 	})
 }

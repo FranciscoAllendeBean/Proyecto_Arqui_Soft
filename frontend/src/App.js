@@ -11,7 +11,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/Principal" element={<Principal />} />
+        <Route path="/PrincipalAdmin" element={<PrincipalAdministrador />} />
+        <Route path="/PrincipalUser"  element={<PrincipalUsuario />} />
         <Route path="/login" element={<Pagina1 />} />
         <Route path="/" element={<Login />} />
         <Route path="/Pagina2" element={<CrearUsuario />} />
@@ -37,10 +38,10 @@ function Pagina1() {
   );
 }
 
-function Principal() {
+function PrincipalAdministrador() {
   return (
-    <div>
-      <h1>Página 2</h1>
+    <div style={{textAlign: 'center'}}>
+      <h1>Administrador</h1>
       
       <Link to="/Pagina2">Crear Usuario</Link><br/>
       <Link to="/Pagina3">Actividades</Link><br/>
@@ -48,7 +49,20 @@ function Principal() {
       <Link to="/Pagina5">Editar Actividad</Link><br/>
       <Link to="/Pagina6">Mis Actividades</Link><br/>
 
-      <Link to="/">Login</Link>
+      <Link to="/">Cerrar sesión</Link>
+    </div>
+  );
+}
+
+function PrincipalUsuario() {
+  return (
+    <div style={{textAlign: 'center'}}>
+      <h1>Usuario</h1>
+      
+      <Link to="/Pagina3">Actividades</Link><br/>
+      <Link to="/Pagina6">Mis Actividades</Link><br/>
+
+      <Link to="/">Cerrar sesión</Link>
     </div>
   );
 }
