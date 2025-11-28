@@ -22,6 +22,28 @@ const MisActividades = () => {
     .catch(() => setMensaje('No se pudieron cargar tus actividades'));
 }, [usuarioId]);
 
+const desinscribirse = async (actividadId) => {
+    if (!window.confirm('¿Estás seguro de que deseas desinscribirse?')) {
+      return;
+    }
+    try {
+      const response = await fetch(`http://localhost:8080/inscripciones/${usuarioId}/${actividadId}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      if (response.ok) {
+        setMensaje('Desinscripción exitosa');
+        // recargar lista de actividades
+        setActividades(actividades.filter(act => (act.Id ?? act.id) !== actividadId));
+      } else {
+        const data = await response.json().catch(() => ({}));
+        setMensaje(data.message || 'No se pudo desinscribir');
+      }
+    } catch (err) {
+      setMensaje('Error al conectar con el servidor');
+    }
+  };
+
   return (
     <div style={{ maxWidth: 600, margin: 'auto' }}>
       <h2>Mis Actividades Inscritas</h2>
@@ -31,6 +53,11 @@ const MisActividades = () => {
           <li key={act.Id}>
             <strong>{act.Nombre}</strong> - {act.Descripcion} <br />
             Día: {act.Dia} | Hora: {act.Hora} | Cupo: {act.Cupo} | Categoría: {act.Categoria}
+            <div>
+              <button onClick={() => desinscribirse(act.Id ?? act.id)} style={{ backgroundColor: 'red', color: 'white' }}>
+                Desinscribirse
+              </button>
+            </div>
           </li>
         ))}
       </ul>

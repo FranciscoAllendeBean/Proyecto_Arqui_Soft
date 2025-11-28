@@ -25,6 +25,28 @@ func CrearInscripcion(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"mensaje": "Inscripción creada con éxito"})
 }
 
+func DesinscribirseInscripcion(c *gin.Context) {
+	usuarioId, err := strconv.Atoi(c.Param("usuarioid"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "ID de usuario inválido"})
+		return
+	}
+
+	actividadId, err := strconv.Atoi(c.Param("actividadid"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "ID de actividad inválido"})
+		return
+	}
+
+	apiErr := Services.InscripcionService.DesinscribirseInscripcion(usuarioId, actividadId)
+	if apiErr != nil {
+		c.JSON(apiErr.Status(), apiErr)
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Desinscripción exitosa"})
+}
+
 func GetActividadesPorUsuario(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("usuarioid"))
 	if err != nil {

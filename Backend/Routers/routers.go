@@ -50,22 +50,16 @@ func SetupRouter() *gin.Engine {
 		MaxAge:           12 * time.Hour,
 	}))
 
-	// Rutas públicas
 	router.GET("/actividades/:id", Controllers.GetActividadById)
 	router.GET("/actividades/disponibles", Controllers.GetActividadDisponible)
 	router.POST("/inscripciones", Controllers.CrearInscripcion)
 	router.GET("/usuarios/:usuarioid/actividades", Controllers.GetActividadesPorUsuario)
 	router.POST("/usuarios", Controllers.CrearUsuario)
 	router.POST("/login", Controllers.Login)
-
-	// Rutas protegidas con middleware de admin
-	auth := router.Group("/")
-	auth.Use(AdminMiddleware())
-	{
-		auth.POST("/actividades", Controllers.InsertActividad)
-		auth.PUT("/actividades/:id", Controllers.ModificarActividad)
-		auth.DELETE("/actividades/:id", Controllers.DeleteActividad)
-	}
+	router.DELETE("/inscripciones/:usuarioid/:actividadid", Controllers.DesinscribirseInscripcion)
+	router.POST("/actividades", Controllers.InsertActividad)
+	router.PUT("/actividades/:id", Controllers.ModificarActividad)
+	router.DELETE("/actividades/:id", Controllers.DeleteActividad)
 
 	return router
 }

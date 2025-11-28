@@ -32,3 +32,10 @@ func GetActividadesPorUsuario(usuarioid int) ([]Models.Actividad, error) {
 
 	return actividades, nil
 }
+
+func DesinscribirseInscripcion(usuarioId int, actividadId int) error {
+	if err := Db.Where("usuarioid = ? AND actividadid = ?", usuarioId, actividadId).Delete(&Models.Inscripcion{}).Error; err != nil {
+		return err
+	}
+	return nil
+}

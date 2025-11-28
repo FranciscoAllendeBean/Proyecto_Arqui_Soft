@@ -14,7 +14,7 @@ type actividadService struct{}
 type actividadServiceInterface interface {
 	GetActividadById(id int) (dto.ActividadDto, e.ApiError)
 	InsertActividad(actividadDto dto.ActividadDto) (dto.ActividadDto, e.ApiError)
-	ModificarActividad(id int, campo string, valor interface{}) e.ApiError
+	ModificarActividad(id int, actividadDto dto.ActividadDto) e.ApiError
 	DeleteActividad(id int) e.ApiError
 	GetActividadDisponible() ([]dto.ActividadDto, e.ApiError)
 }
@@ -70,8 +70,18 @@ func (s *actividadService) InsertActividad(actividadDto dto.ActividadDto) (dto.A
 	return actividadDto, nil
 }
 
-func (s *actividadService) ModificarActividad(id int, campo string, valor interface{}) e.ApiError {
-	err := actividadCliente.ModificarActividad(id, campo, valor)
+func (s *actividadService) ModificarActividad(id int, actividadDto dto.ActividadDto) e.ApiError {
+	var actividad Models.Actividad
+	actividad.Id = id
+	actividad.Nombre = actividadDto.Nombre
+	actividad.Descripcion = actividadDto.Descripcion
+	actividad.Dia = actividadDto.Dia
+	actividad.Hora = actividadDto.Hora
+	actividad.Cupo = actividadDto.Cupo
+	actividad.Categoria = actividadDto.Categoria
+	actividad.Disponible = actividadDto.Disponibilidad
+
+	err := actividadCliente.ModificarActividad(id, actividad)
 	if err != nil {
 		return e.NewInternalServerApiError("No se pudo modificar la actividad", err)
 	}

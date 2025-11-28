@@ -25,7 +25,10 @@ const Login = () => {
       const rol = (data.Rol || data.role || '').toString();
       localStorage.setItem('usuarioId', data.usuarioId ?? data.usuarioid ?? '');
       localStorage.setItem('role', rol);
-
+      const token = data.token ?? data.Token ?? data.accessToken ?? data.access_token ?? data.jwt ?? data.tokenJWT;
+      if (token) {
+        localStorage.setItem('token', token);
+      }
       if (rol === 'admin') navigate('/PrincipalAdmin');
       else navigate('/PrincipalUser');
     } catch (err) {

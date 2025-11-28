@@ -57,14 +57,9 @@ func CrearActividad(actividad Models.Actividad) error {
 	return nil
 }
 
-func ModificarActividad(id int, campo string, valor interface{}) error {
-	result := Db.Model(&Models.Actividad{}).Where("id = ?", id).Update(campo, valor)
-
-	if result.Error != nil {
-		log.Error("Error actualizando la actividad: ", result.Error)
-		return result.Error
+func ModificarActividad(id int, actividad Models.Actividad) error {
+	if err := Db.Model(&Models.Actividad{}).Where("id = ?", id).Updates(actividad).Error; err != nil {
+		return err
 	}
-
-	log.Info("Actividad actualizada con éxito. ID:", id, "Campo:", campo, "Nuevo valor:", valor)
 	return nil
 }

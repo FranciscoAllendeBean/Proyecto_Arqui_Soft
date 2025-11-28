@@ -6,20 +6,24 @@ import Actividades from './Actividades';
 import CrearActividad from './CrearActividad';
 import EditarActividad from './EditarActividad';
 import MisActividades from './MisActividades';
+import EliminarActividad from './EliminarActividad';
+import ProtectedRoute from './ProtectedRoutes';
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/PrincipalAdmin" element={<PrincipalAdministrador />} />
-        <Route path="/PrincipalUser"  element={<PrincipalUsuario />} />
-        <Route path="/login" element={<Pagina1 />} />
         <Route path="/" element={<Login />} />
-        <Route path="/Pagina2" element={<CrearUsuario />} />
-        <Route path="/Pagina3" element={<Actividades />} />
-        <Route path="/Pagina4" element={<CrearActividad />} />
-        <Route path="/Pagina5" element={<EditarActividad />} />
-        <Route path="/Pagina6" element={<MisActividades />} />
+        <Route path="/login" element={<Login />} />
+        
+        {/* rutas protegidas */}
+        <Route path="/PrincipalAdmin" element={<ProtectedRoute element={<PrincipalAdministrador />} />} />
+        <Route path="/PrincipalUser" element={<ProtectedRoute element={<PrincipalUsuario />} />} />
+        <Route path="/Pagina2" element={<ProtectedRoute element={<CrearUsuario />} />} />
+        <Route path="/Pagina3" element={<ProtectedRoute element={<Actividades />} />} />
+        <Route path="/Pagina4" element={<ProtectedRoute element={<CrearActividad />} />} />
+        <Route path="/Pagina5" element={<ProtectedRoute element={<EditarActividad />} />} />
+        <Route path="/Pagina6" element={<ProtectedRoute element={<MisActividades />} />} />
       </Routes>
     </Router>
   );
@@ -103,6 +107,14 @@ function Pagina5() {
 function Pagina6() {
   const usuarioId = localStorage.getItem('usuarioId');
   return <MisActividades usuarioId={usuarioId} />;
+}
+
+function Pagina7() {
+  return (
+    <div>
+
+    </div>
+  );
 }
 
 export default App;

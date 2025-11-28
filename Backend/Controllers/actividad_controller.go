@@ -47,27 +47,20 @@ func InsertActividad(c *gin.Context) {
 func ModificarActividad(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		c.JSON(http.StatusBadRequest, "ID inválido")
+		c.JSON(http.StatusBadRequest, gin.H{"message": "ID inválido"})
 		return
 	}
-
-	var req struct {
-		Campo string      `json:"campo"`
-		Valor interface{} `json:"valor"`
-	}
-	if err := c.BindJSON(&req); err != nil {
-		log.Error("Error al parsear el JSON: ", err)
-		c.JSON(http.StatusBadRequest, "Datos inválidos")
+	var actividadDto dto.ActividadDto
+	if err := c.BindJSON(&actividadDto); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "JSON inválido"})
 		return
 	}
-
-	apiErr := Services.ActividadService.ModificarActividad(id, req.Campo, req.Valor)
+	apiErr := Services.ActividadService.ModificarActividad(id, actividadDto)
 	if apiErr != nil {
 		c.JSON(apiErr.Status(), apiErr)
 		return
 	}
-
-	c.JSON(http.StatusOK, gin.H{"mensaje": "Actividad modificada con éxito"})
+	c.JSON(http.StatusOK, gin.H{"message": "Actividad actualizada"})
 }
 
 func DeleteActividad(c *gin.Context) {
